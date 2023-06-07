@@ -80,3 +80,48 @@ def fulldfslices(nsubjects=16, slice_size =13, trackdict=False):
         return XyDF, dicc16
     if not trackdict:
         return XyDF
+    
+#y np.array (720,), 1 value per array
+def y_unique(nsubjects=16):
+    '''y for RNN. after X is padded, this y is used to fit'''
+    yunique = []
+
+    for i in range(1,nsubjects+1):
+    y=pickle.loads(np.load(f'../data/{i}_123.npz')['label'])
+    for e in range(45):
+        yunique.append(int(np.unique(y[e])))
+            
+    return np.array(yunique).astype(np.float32)
+
+def fulldfpad(nsubjects=16, Xymerge=True):
+    '''Files must be labelled as {subject#}_123.npz' and should be inside a Data folder within the Project.
+    Returns a list with 720,18,311 np.arrays
+    Xymerge=True includes 'y' on the DF
+    '''
+    data16  = {}
+    label16 = {}
+    Xymergeg=Xymerge
+    for i in range(1,nsubjects+1): 
+        # Load all 16 files data into a Dict named 'i_123.npz' using a for loop
+        data16[i]  = pickle.loads(np.load(f'../data/{i}_123.npz')['data'])
+        label16[i] = pickle.loads(np.load(f'../data/{i}_123.npz')['label'])    
+    
+    def gatherdatapad(X, y, Xymerge):
+        Xyframes=[]
+        for i in range(45):
+            if Xymerge:
+                merge = pd.concat([pd.DataFrame(X[i]), pd.DataFrame(y[i])], axis=1)
+                Xyframes.append(np.array(merge))
+            if not Xymerge:
+                Xyframes.append(pd.DataFrame(X[i]))
+        #XyDF = pd.concat(Xyframes) #DFintegrated
+        return Xyframes #list of pd.DF
+    
+    Xy16_list = []
+    for i in range(1,nsubjects+1): 
+        #apply all data to the gather data func to create lists of DFs 
+        Xy = gatherdatapad(data16[i], label16[i],Xymerge=Xymergeg)
+        Xy16_list += Xy
+    #XyDF = pd.concat(Xy16_list)
+    #XyDF.columns = [*XyDF.columns[:-1], 'target']
+    return Xy16_list
