@@ -5,6 +5,8 @@ import seaborn as sns
 import random
 
 from sklearn.preprocessing import MinMaxScaler
+from tensorflow.keras.preprocessing.sequence import pad_sequences
+
 from final_project_EEG import Internal_funcs
 
 # versions used by source
@@ -125,3 +127,18 @@ def fulldfpad(nsubjects=16, Xymerge=True):
     #XyDF = pd.concat(Xy16_list)
     #XyDF.columns = [*XyDF.columns[:-1], 'target']
     return Xy16_list
+
+#MaxPadding
+#New function to collect all Data across all 16 subjects without split
+#Full DF no split
+def fulldfmax(nsubjects=16):
+    '''returns a np.array shape (720, 74, 310) '''
+    data16  = [pickle.loads(np.load(f'../data/{i}_123.npz')['data']) for i in range(1,nsubjects+1)]
+
+    pad_list=[]
+    for i in range(nsubjects):
+        X = list(data16[i].values())
+        X_pad = pad_sequences(X, dtype='float32', value=-42069) # int32 by default
+        pad_list.append(X_pad)
+
+    return np.concatenate(pad_list)
