@@ -6,8 +6,12 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras import layers
 
+
 #1. Model Architecture
-def initialize_model():
+
+#1. Model Architecture
+def initialize_model(X):
+    input_shape = X.shape[1:]
     model = Sequential()
     model.add(layers.Masking(mask_value=-42069., input_shape=input_shape))
 
@@ -24,9 +28,9 @@ def initialize_model():
     return model
 
 # 2. Model Compilation
-def compile_model(model: Model,
+def compile_model(model,
                   learning_rate=0.0005
-                  ) -> Model:
+                  ):
     
     model.compile(
     loss='categorical_crossentropy', 
@@ -37,25 +41,25 @@ def compile_model(model: Model,
 
     return model
 
-# –– Fit
-def fit_model(
-        model: Model,
+# 3. Fit, Train
+def fit_model(model,
         X,
         y,
         batch_size=32,
         patience=2,
         validation_data=None, # overrides validation_split
         validation_split=0.3
-    ) -> Tuple[Model, dict]:
+    ):
     """
     Fit the model and return a tuple (fitted_model, history)
     """
-    es = EarlyStopping(
-        monitor="val_loss",
-        patience=patience,
-        restore_best_weights=True,
-        verbose=1
-    )
+        
+    '''es = EarlyStopping(
+    monitor="val_loss",
+    patience=patience,
+    restore_best_weights=True,
+    verbose=1)'''
+        
     history = model.fit(
         X,
         y,

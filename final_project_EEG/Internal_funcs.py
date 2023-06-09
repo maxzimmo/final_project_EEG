@@ -4,8 +4,41 @@ import pickle
 import seaborn as sns
 import random
 
+
 # INTERNAL FUNCS
-def splitdata(data, label, ntrainbatch=10):
+## Load the Data
+def access16(y=True):
+    '''converts Person file into a dict with 16 keys.
+    if y: returns data16 and label16.
+    if not y: returns only data16'''
+    data16  = {}
+    label16 = {}
+    for i in range(1,nsubjects+1):
+        # Load all 16 files data into a Dict named ‘i_123.npz’ using a for loop
+        data16[i]  = pickle.loads(np.load(f'../data/{i}_123.npz')['data'])
+        if y:
+            label16[i] = pickle.loads(np.load(f'../data/{i}_123.npz')['label'])  
+    if y:
+        return data16, label16
+    if not y:
+        return data16
+    
+def concate(X,y):
+    ''' joins X and y '''
+    Xyframe = pd.concat([pd.DataFrame(X), pd.DataFrame(y)], axis=1)
+    return Xyframe
+    
+def gatherdata(X, y):
+    ''' X,y = inputs Dicts with 45 keys e.g. data[1], label[1]
+    returns a pd.DF with all 45 clips concatenated (1823, 311))'''
+    Xyframes=[]
+    for i in range(45):
+        Xyframes.append(concate(X[i],y[i]))
+    XyDF = pd.concat(Xyframes)
+    return XyDF
+
+def splitdata(data, label, ntrainbatch):
+    '''splits train-test 10-5 '''
     nbatch=ntrainbatch-1
     trainframes=[]
     testframes =[]
@@ -18,15 +51,8 @@ def splitdata(data, label, ntrainbatch=10):
     test  = pd.concat(testframes)
     return train, test
 
-def gatherdata(X, y):
-    Xyframes=[]
-    for i in range(45):
-        Xyframes.append(pd.concat([pd.DataFrame(X[i]), pd.DataFrame(y[i])], axis=1))
-    XyDF = pd.concat(Xyframes)
-    return XyDF
-
 def allsets(X,y,slice_size=13, trackdict=False,Xymerge=False):
-    '''adds all possible slices from slice_size  
+    '''adds all possible slices size (slice_size, 311)  
     Xymerge=True returns df with X and y'''
     slices = []
     dicc={}
