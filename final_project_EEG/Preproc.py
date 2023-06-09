@@ -84,7 +84,7 @@ def fulldf(nsubjects=16):
     def gatherdata(X, y):
         Xyframes=[]
         for i in range(45):
-            Xyframes.append(pd.concat([pd.DataFrame(data[i]), pd.DataFrame(label[i])], axis=1))
+            Xyframes.append(pd.concat([pd.DataFrame(X[i]), pd.DataFrame(y[i])], axis=1))
         XyDF = pd.concat(Xyframes)
         return XyDF
 
@@ -98,8 +98,8 @@ def fulldf(nsubjects=16):
 
 ##..............  1b Fit the Scaler
 ###  Fit-scaling of the full dataset. We fit it on a MinMax scaler 
-scaler_com = MinMaxScaler()
-scaler_com.fit(Xytotal)
+#scaler_com = MinMaxScaler()
+#scaler_com.fit(Xytotal)
 #..............
 ##..............  2) Transform the scaler
 ### 2a Load the X ndarrays.List with 16 np.arrays (13-74,310)
@@ -118,10 +118,10 @@ for i in range(16):
         lst.append(sequence_scaled)'''
 
 ### The same but in a func
-def sc_trans(rnn_df):
+def sc_trans(rnn_df, scaler_com):
     lst = []
     for i in range(16): 
-        each_participant = list(ddd[i].values())
+        each_participant = list(rnn_df[i].values())
         for j in each_participant: 
             sequence_scaled = scaler_com.transform(j)
             lst.append(sequence_scaled)
@@ -129,8 +129,10 @@ def sc_trans(rnn_df):
 #..............
 ##..............  3) Padding
 ### 3a Apply kerasfunc to Pad the arrays to (74,310) shape ok to RNN
-X_pad = pad_sequences(lst, value=-42069, padding="post", dtype='float32') # int32 by default
-X_pad
+
+#X_pad = pad_sequences(lst, value=-42069, padding="post", dtype='float32') # int32 by default
+#X_pad
+
 #..............
 ##..............  4) y-Preproc
 ### 4a ndarray (720, 1) with a single value for each trial 
@@ -163,14 +165,6 @@ y_OHE = ohe.transform(y_re)'''
 
 def yohe(y_unique):
     ohe = OneHotEncoder(sparse = False)
-    ohe.fit(y_re) 
-    y_OHE = ohe.transform(y_re)
+    ohe.fit(y_unique) 
+    y_OHE = ohe.transform(y_unique)
     return y_OHE
-
-#RNN model
-
-# input X and y for the RNN, plus input shape 
-input_shape = X_pad.shape[1:]
-X_rnn = X_pad
-y_rnn = y_OHE 
-

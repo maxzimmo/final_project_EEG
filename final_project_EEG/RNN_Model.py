@@ -7,7 +7,7 @@ from tensorflow.keras.optimizers import Adam
 from tensorflow.keras import layers
 
 #1. Model Architecture
-def initialize_model(X):
+def initialize_model():
     model = Sequential()
     model.add(layers.Masking(mask_value=-42069., input_shape=input_shape))
 
@@ -40,8 +40,8 @@ def compile_model(model: Model,
 # –– Fit
 def fit_model(
         model: Model,
-        X: np.ndarray,
-        y: np.ndarray,
+        X,
+        y,
         batch_size=32,
         patience=2,
         validation_data=None, # overrides validation_split
