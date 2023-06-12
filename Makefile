@@ -4,6 +4,9 @@
 install_requirements:
 	@pip install -r requirements.txt
 
+streamlit:
+	-@streamlit run app.py
+
 check_code:
 	@flake8 scripts/* dummy_project/*.py
 
