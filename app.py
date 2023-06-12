@@ -1,21 +1,18 @@
 import streamlit as st
 import os
+import numpy as np
+import matplotlib.pyplot as plt
+from keras import models
+
+# Load the model once instead of every time the function is called
+model = models.load_model("./model.h5")
 
 
-def add_bg_from_url():
-    st.markdown(
-        f"""
-         <style>
-         .stApp {{
-             background-image: url("https://federalnewsnetwork.com/wp-content/uploads/2023/05/GettyImages-1460853312-1880x1057.jpg");
-             background-attachment: fixed;
-             background-size: cover
-         }}
-         </style>
-         """,
-        unsafe_allow_html=True
-    )
-# add_bg_from_url()
+def predict(input_file):
+    '''needs a file path as input. Loads .npy file and predicts. Returns prediction'''
+    X_test = np.load(input_file)
+    prediction = model.predict(X_test)
+    return prediction
 
 
 def main():
@@ -26,7 +23,7 @@ def main():
     os.makedirs(upload_dir, exist_ok=True)
 
     # Upload file
-    uploaded_file = st.file_uploader("Choose a file")
+    uploaded_file = st.file_uploader("Choose a .npy file", type=['npy'])
 
     # Check if file was uploaded
     if uploaded_file is not None:
@@ -34,11 +31,14 @@ def main():
         file_path = os.path.join(upload_dir, uploaded_file.name)
         with open(file_path, "wb") as file:
             file.write(uploaded_file.getvalue())
-
         st.success(f"File '{uploaded_file.name}' uploaded successfully.")
-        # st.info("File saved to 'upload' directory.")
-        st.markdown(f"**Uploaded File Name:** {uploaded_file.name}")
-        # st.markdown(f"**File Size:** {uploaded_file.size} bytes")
+
+        # Run prediction
+        output = predict(file_path)
+        final_trial_predict = np.max(output[0])
+        st.markdown(f"**Prediction Result:** {final_trial_predict}")
+        plt.plot(output)
+        st.pyplot(plt)
 
 
 if __name__ == '__main__':
