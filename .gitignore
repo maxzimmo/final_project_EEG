@@ -1,1 +1,10 @@
+*.egg-info
+.coverage
+.DS_Store
+**/__pycache__/
 raw_data/
+# /notebooks
+# .ipynb_checkpoints
+# *.ipynb
+.env
+*.csv

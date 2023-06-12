@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>EEG Prediction</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="images/favicons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicons/favicon-16x16.png">
+  <link rel="manifest" href="images/favicons/site.webmanifest">
+  <link rel="mask-icon" href="images/favicons/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="container d-flex flex-column justify-content-center align-items-center vh-100">
+    <h1 class="text-center p-2 display-4 mt-5 eeg-title">E.E.G</h1>
+    <p class="text-center eeg-caption">Electroencephalogram</p>
+    <div class="eeg-description">
+      <p>
+        Welcome! To get a prediction for your brain state, please upload an EEG (Electroencephalogram) file in npz
+        format.
+        This will allow us to analyze your brain activity and provide insights. Simply drag and drop the file into the
+        designated area or click to upload.
+      </p>
+      <div id="dropzone" class="text-center mt-5">
+        <p>Drag and drop a file here or click to upload.</p>
+        <input type="file" id="uploadInput" class="d-none">
+        <button id="uploadButton" class="btn btn-primary">Select File</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
