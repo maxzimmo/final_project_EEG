@@ -7,7 +7,7 @@ import random
 from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 
-from final_project_EEG import Internal_funcs
+import Internal_funcs
 
 # versions used by source
 #print(np.__version__) #1.18.4
@@ -143,7 +143,7 @@ def y_unique(nsubjects=16):
     yunique = []
 
     for i in range(1,nsubjects+1):
-    y=pickle.loads(np.load(f'../data/{i}_123.npz')['label'])
+        y=pickle.loads(np.load(f'../data/{i}_123.npz')['label'])
     for e in range(45):
         yunique.append(int(np.unique(y[e])))
             

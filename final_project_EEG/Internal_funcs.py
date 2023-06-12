@@ -3,10 +3,11 @@ import pandas as pd
 import pickle
 import seaborn as sns
 import random
+import os
 
 # INTERNAL FUNCS
 ## Load the Data
-def access16(y=True):
+def access16(y=True, nsubjects=16):
     '''converts Person file into a dict with 16 keys.
     if y: returns data16 and label16.
     if not y: returns only data16'''
@@ -14,9 +15,9 @@ def access16(y=True):
     label16 = {}
     for i in range(1,nsubjects+1):
         # Load all 16 files data into a Dict named ‘i_123.npz’ using a for loop
-        data16[i]  = pickle.loads(np.load(f'../data/{i}_123.npz')['data'])
+        data16[i]  = pickle.loads(np.load(f'./final_project_EEG/data/{i}_123.npz')['data'])
         if y:
-            label16[i] = pickle.loads(np.load(f'../data/{i}_123.npz')['label'])  
+            label16[i] = pickle.loads(np.load(f'./final_project_EEG/data/{i}_123.npz')['label'])  
     if y:
         return data16, label16
     if not y:
