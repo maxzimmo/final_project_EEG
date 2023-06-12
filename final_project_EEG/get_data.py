@@ -1,17 +1,18 @@
 import numpy as np
 import pandas as pd
 import pickle
-import seaborn as sns
 import random
-from matplotlib import pyplot as plt
+
 from final_project_EEG import Internal_funcs
 
 
 ## Transform dataset to 2D Data
 
 #Split Data Function
+#fulldfsplit() function for Train-Test Split with Full DF
 def fulldfsplit(nsubjects=16):
-    '''Files must be labelled as {subject#}_123.npz' and should be inside a Data folder within the Project'''
+    '''Returns Xtyrain, Xytest = fulldfsplit()'''
+
     data16  = {}
     label16 = {}
     Xytrain16_list = []

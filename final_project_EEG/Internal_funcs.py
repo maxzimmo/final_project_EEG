@@ -4,7 +4,6 @@ import pickle
 import seaborn as sns
 import random
 
-
 # INTERNAL FUNCS
 ## Load the Data
 def access16(y=True):

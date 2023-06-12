@@ -39,6 +39,7 @@ def runRNN(X,y):
 #   RNN_Model
 #   processflow
 
+Internal_funcs get_data RNN_Model processflow
 # RNN Preproc process:
 
 ##  1) Fit the scaler on fullDF()

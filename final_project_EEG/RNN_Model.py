@@ -8,8 +8,6 @@ from tensorflow.keras import layers
 
 
 #1. Model Architecture
-
-#1. Model Architecture
 def initialize_model(X):
     input_shape = X.shape[1:]
     model = Sequential()
