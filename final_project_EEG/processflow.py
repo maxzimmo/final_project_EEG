@@ -1,6 +1,11 @@
-from final_project_EEG import Internal_funcs, RNN_Model, Preproc
+from RNN_Model import *
+from get_data import *
+from Preproc import *
+
+#Internal_funcs, RNN_Model, Preproc
 from sklearn.preprocessing import MinMaxScaler #, RobustScaler, OneHotEncoder
 from sklearn.decomposition import PCA
+import os
 
 
 def RNNpreprocflow():
@@ -15,31 +20,45 @@ def RNNpreprocflow():
     pca = PCA(n_components=0.9)
     pca.fit(XDF)
 
-    #Pad the 720 arrays to (720,74,310)
+    #X-Transform to the rnn_df
     data16 = rnn_df()
-    lst = sc_trans(data16,scaler_com)
+    #Scaler, PCA
+    lst = sc_trans(data16,scaler_com, pca)
+    #Pad the 720 arrays to (720,74,310)
     X = padding(lst)
-    #OHE of a single y for each array
+    
+    #y-Transform to the yunique_df
     y_u = y_unique()
+    #OHE yunique
     y = yohe(y_u)
     
     return X, y
 
-def runRNN(X,y):
+def runRNN(X,y,train_size=.7,val_size=.2, random_state=42):
+    #splitData
+    X_train, X_val, X_test, y_train, y_val, y_test = RNN_split_data(X,y,train_size=.7,val_size=.2, random_state=42)
+
     init_model = initialize_model(X)
     comp_model = compile_model(init_model)
-    model, history = fit_model(comp_model, X, y)
+    model, history = fit_model(comp_model, X_train,
+        y_train,
+        X_val, 
+        y_val)
     return model, history
 
+if __name__ == "__main__":
+    X,y=RNNpreprocflow()
+    model, history=runRNN(X,y)
+    #LOCAL_PATH = os.
+    #model_path = os.path.join( "./", "models", f"{timestamp}.h5")
+    model.save("./model.h5")
 
-
-#Files needed to run:
-#   Internal_funcs
-#   get_data
+#   .py Files needed to run:
+#   get_data (incl.Internal_funcs)
+#   Preproc
 #   RNN_Model
 #   processflow
 
-Internal_funcs get_data RNN_Model processflow
 # RNN Preproc process:
 
 ##  1) Fit the scaler on fullDF()

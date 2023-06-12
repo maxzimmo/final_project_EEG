@@ -1,10 +1,12 @@
-from final_project_EEG import Preproc
+import Preproc
 
 # architecture of the RNN 
 from tensorflow.keras.layers import Masking
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.optimizers import Adam, Nadam
 from tensorflow.keras import layers
+from tensorflow.keras.metrics import Recall
+from tensorflow.keras.losses import CategoricalHinge
 
 
 #1. Model Architecture
@@ -13,10 +15,10 @@ def initialize_model(X):
     model = Sequential()
     model.add(layers.Masking(mask_value=-42069., input_shape=input_shape))
 
-    model.add(layers.LSTM(units=2, activation='tanh', return_sequences=True))
-    model.add(layers.LSTM(units=2, activation='tanh', return_sequences=True))
-    model.add(layers.LSTM(units=2, activation='tanh', return_sequences=True))
-    model.add(layers.LSTM(units=2, activation='tanh', return_sequences=False))
+    model.add(layers.LSTM(units=20, activation='tanh', return_sequences=True))
+    model.add(layers.LSTM(units=20, activation='tanh', return_sequences=True))
+    #model.add(layers.LSTM(units=20, activation='tanh', return_sequences=True))
+    model.add(layers.LSTM(units=20, activation='tanh', return_sequences=False))
     #model.add(layers.Dense(10, activation='relu'))
     #model.add(layers.Dense(10, activation='relu'))
     model.add(layers.Dense(5, activation='softmax'))
@@ -26,14 +28,15 @@ def initialize_model(X):
     return model
 
 # 2. Model Compilation
-def compile_model(model,
-                  learning_rate=0.0005
-                  ):
-    
+def compile_model(model):
+    optimizer = Nadam(learning_rate=0.005, beta_1=0.9)
+    #optimizer = AdamW(learning_rate=0.005, beta_1=0.9)
     model.compile(
-    loss='categorical_crossentropy', 
-    optimizer='adam',
-    metrics=['accuracy'])
+        loss='categorical_crossentropy', 
+        optimizer=optimizer,
+        #weight_decay=0.1, 
+        metrics=[Recall(), 'accuracy']
+        )
     
     print("✅ Model compiled")
 
@@ -41,13 +44,16 @@ def compile_model(model,
 
 # 3. Fit, Train
 def fit_model(model,
-        X,
-        y,
+        X_train,
+        y_train,
+        X_val, 
+        y_val,
         batch_size=32,
+        epochs=200,
+        #validation_split=0.3,
         patience=2,
-        validation_data=None, # overrides validation_split
-        validation_split=0.3
-    ):
+        verbose=2
+        ):
     """
     Fit the model and return a tuple (fitted_model, history)
     """
@@ -59,13 +65,12 @@ def fit_model(model,
     verbose=1)'''
         
     history = model.fit(
-        X,
-        y,
-        epochs = 500,         
-        batch_size = batch_size, 
-        verbose=2,
-        #callbacks=[es], # Notice that we are not using any Early Stopping Criterion
-    )
-    print(Fore.BLUE + "\nTraining model..." + Style.RESET_ALL)
-    
+        X_train,
+        y_train,
+        validation_data=(X_val, y_val),
+        epochs = epochs,         #should we use an Early Stopping Criterion?
+        batch_size = 32, 
+        verbose=2
+        )
+    print("Model training done!")      
     return model, history
