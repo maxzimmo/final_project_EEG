@@ -37,6 +37,8 @@ def main():
         output = predict(file_path)
         final_trial_predict = np.max(output[0])
         st.markdown(f"**Prediction Result:** {final_trial_predict}")
+        print(output)
+        st.write(output)
         plt.plot(output)
         st.pyplot(plt)
 
