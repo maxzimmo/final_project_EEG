@@ -4,6 +4,11 @@ from predict import *
 
 app = FastAPI()
 
+def load_model():
+    '''returns loads last saved model to preload it on api.py'''
+    model= models.load_model("./model.h5")
+    return model
+
 # 💡 Preload the model to accelerate the predictions
 app.state.model = load_model()
     

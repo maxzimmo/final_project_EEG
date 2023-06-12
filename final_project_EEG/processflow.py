@@ -46,6 +46,11 @@ def runRNN(X,y,train_size=.7,val_size=.2, random_state=42):
         y_val)
     return model, history
 
+def load_model():
+    '''returns loads last saved model to preload it on api.py'''
+    model= models.load_model("./model.h5")
+    return model
+
 if __name__ == "__main__":
     X,y=RNNpreprocflow()
     model, history=runRNN(X,y)
