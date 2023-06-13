@@ -3,4 +3,3 @@ requests
 matplotlib
 pandas
 numpy
-os
