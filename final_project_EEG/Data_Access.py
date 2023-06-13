@@ -150,7 +150,7 @@ def y_unique(nsubjects=16):
     return np.array(yunique).astype(np.float32)
 
 #Train-Val-Test Split func
-def RNN_split_data(X, y, train_size, val_size, random_state=42):
+def RNN_split_data(X, y, train_size=.7, val_size=.2, random_state=42):
     '''Takes fulldfmax() as X, y_unique() as y. '''
     test_size = 1-train_size-val_size
     assert train_size + val_size + test_size == 1.0, "Sizes must add up to 1.0"

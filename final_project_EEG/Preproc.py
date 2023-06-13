@@ -9,7 +9,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.impute import SimpleImputer
 from sklearn.decomposition import PCA
 
-from Internal_funcs import *
+#from Internal_funcs import *
 from get_data import *
  
  
