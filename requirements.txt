@@ -1,5 +1,6 @@
 streamlit
-requests
-matplotlib
-pandas
-numpy
+requests==2.28.1
+matplotlib==3.5.3
+pandas==1.4.4
+numpy==1.23.4
+keras==2.10.0
