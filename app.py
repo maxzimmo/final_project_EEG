@@ -105,7 +105,7 @@ def main():
 
         # Display the markdown text in the second column
         col1.markdown(
-            f"## **The emotion predicted is:**\n <span class='emotion-label-result'>{label_dict[best_category]}</span>",
+            f"## **The predicted emotion is:**\n <span class='emotion-label-result'>{label_dict[best_category]}</span>",
             unsafe_allow_html=True
         )
         
