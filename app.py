@@ -119,7 +119,7 @@ def main():
 
         # Summary Analysis
         st.markdown(
-            f'''For this set, the most likely Emotion is '{label_dict[best_category]}', with a probability of: {float_value} %''')
+            f'''For this set, the most likely emotion is '{label_dict[best_category]}', with a probability of: {float_value} %''')
 
         # Create a bar plot for the probabilities of each category
         fig, ax = plt.subplots()
