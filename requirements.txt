@@ -8,3 +8,4 @@ tensorflow==2.10.0
 altair<5
 seaborn==0.11.2
 sklearn==0.0.post1
+scikit-learn==1.2.2
