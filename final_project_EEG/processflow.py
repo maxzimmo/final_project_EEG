@@ -58,8 +58,8 @@ if __name__ == "__main__":
     #LOCAL_PATH = os.
     #model_path = os.path.join( "./", "models", f"{timestamp}.h5")
     model.save("./model.h5")
-    np.save('X_test', X_test)
-    np.save('y_test', y_test)
+    #np.save('X_test', X_test)
+    #np.save('y_test', y_test)
 
 #   .py Files needed to run:
 #   get_data (incl.Internal_funcs)
