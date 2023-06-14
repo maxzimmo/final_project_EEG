@@ -22,11 +22,11 @@ label_dict = {0:'Disgust', 1:'Fear', 2:'Sad', 3:'Neutral', 4:'Happy'}
 #              2: 'https://media.istockphoto.com/id/151557041/photo/baby-crying.jpg?s=612x612&w=0&k=20&c=PR6N_B-8TRjeyBVPzud5Gw_sJZZlf3wOgtg_4-AmGbM=',
 #              3: 'https://media-cldnry.s-nbcnews.com/image/upload/t_fit-760w,f_auto,q_auto:best/newscms/2016_06/973451/guy-raised-eyebrow-today-160212.jpg',
 #              4: 'https://1000wordphilosophy.files.wordpress.com/2021/05/happiness.jpg?w=640'}
-image_dict = {0: './data/emotion_images/disgust.jpeg',
-              1: './data/emotion_images/fear.jpeg',
-              2: './data/emotion_images/sad.jpeg',
-              3: './data/emotion_images/neutral.jpeg',
-              4: './data/emotion_images/happy.jpeg'}
+image_dict = {0: './data/emotion_images/disgust.png',
+              1: './data/emotion_images/fear.png',
+              2: './data/emotion_images/sad.png',
+              3: './data/emotion_images/neutral.png',
+              4: './data/emotion_images/happy.png'}
 
 
 def predict(input_file):
