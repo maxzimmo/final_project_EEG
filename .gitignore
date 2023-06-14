@@ -8,4 +8,4 @@ raw_data/
 *.ipynb
 .env
 *.csv 
-data/
+/data/
