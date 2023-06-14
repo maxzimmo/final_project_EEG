@@ -17,11 +17,11 @@ model = models.load_model("./data/models/model.h5")
 # Define your label dictionary
 label_dict = {0: 'Disgust', 1: 'Fear', 2: 'Sad', 3: 'Neutral', 4: 'Happy'}
 
-image_dict = {0: './data/emotion_images/disgust.jpeg',
-              1: './data/emotion_images/fear.jpeg',
-              2: './data/emotion_images/sad.jpeg',
+image_dict = {0: './data/emotion_images/disgust.png',
+              1: './data/emotion_images/fear.png',
+              2: './data/emotion_images/sad.png',
               3: './data/emotion_images/neutral.png',
-              4: './data/emotion_images/happy.jpeg'}
+              4: './data/emotion_images/happy.png'}
 
 
 def predict(input_file):
