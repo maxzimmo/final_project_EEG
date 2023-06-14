@@ -6,9 +6,13 @@ from keras import models
 from sklearn.metrics import confusion_matrix
 import seaborn as sns
 
+def load_css(file_name):
+    with open(file_name) as f:
+        st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+
+
 # Load the model once instead of every time the function is called
 model = models.load_model("./data/models/model.h5")
-
 # Define your label dictionary
 label_dict = {0:'Disgust', 1:'Fear', 2:'Sad', 3:'Neutral', 4:'Happy'}
 
@@ -18,7 +22,7 @@ label_dict = {0:'Disgust', 1:'Fear', 2:'Sad', 3:'Neutral', 4:'Happy'}
 #              2: 'https://media.istockphoto.com/id/151557041/photo/baby-crying.jpg?s=612x612&w=0&k=20&c=PR6N_B-8TRjeyBVPzud5Gw_sJZZlf3wOgtg_4-AmGbM=',
 #              3: 'https://media-cldnry.s-nbcnews.com/image/upload/t_fit-760w,f_auto,q_auto:best/newscms/2016_06/973451/guy-raised-eyebrow-today-160212.jpg',
 #              4: 'https://1000wordphilosophy.files.wordpress.com/2021/05/happiness.jpg?w=640'}
-image_dict = {0: './data/data/emotion_images/disgust.jpeg',
+image_dict = {0: './data/emotion_images/disgust.jpeg',
               1: './data/emotion_images/fear.jpeg',
               2: './data/emotion_images/sad.jpeg',
               3: './data/emotion_images/neutral.jpeg',
@@ -33,14 +37,42 @@ def predict(input_file):
     return prediction
 
 def main():
+    
     st.title("EEG Predictor")
-    st.markdown('''
-    ## Welcome to the Emotions predictor! 
-    Upload a file to get a prediction!''')
+   
 
     # Load y_test data
     y_test = np.load('./data/models/y_test.npy')
 
+    load_css('style.css')
+        
+    st.markdown(
+        f"""
+        <style>
+        .stApp {{
+            background-image: url("https://federalnewsnetwork.com/wp-content/uploads/2023/05/GettyImages-1460853312-1880x1057.jpg");
+            background-attachment: fixed;
+            background-size: cover
+        }}
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+    
+    st.write("""
+        <div class="container d-flex flex-column justify-content-center align-items-center vh-100">
+            <h1 class="text-center p-2 display-4 mt-5 eeg-title">E.E.G</h1>
+            <p class="text-center eeg-caption">Electroencephalogram</p>
+            <div class="eeg-description">
+                <p>
+                    Welcome to the Emotions predictor! Upload a file to get a prediction
+                    This will allow us to analyze your brain activity and provide insights. Simply drag and drop the file into the
+                    designated area or click to upload.
+                </p>
+            </div>
+        </div>
+    """, unsafe_allow_html=True)
+        
     # Create a directory for file uploads
     upload_dir = "upload"
     os.makedirs(upload_dir, exist_ok=True)
