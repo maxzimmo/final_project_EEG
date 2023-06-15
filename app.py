@@ -83,20 +83,27 @@ def main():
 
         # Get file summary
         X_test = np.load(file_path)
-        st.info(
-            f"The uploaded file contains {X_test.shape[0]} sets to be predicted.")
-
+        #st.info(
+        #    f"The uploaded file contains {X_test.shape[0]} sets to be predicted.")
+        st.markdown(f"""
+            <div style='background-color:rgba(0, 0, 255, 0.5);'>
+                <p>The uploaded file contains {X_test.shape[0]} sets to be predicted.</p>
+            </div>
+            """, unsafe_allow_html=True)
+        
         # Run prediction
         output = predict(file_path)
         st.success("Congratulations, now we have predictions!")
 
         # Use a dropdown to select the observation to display
         selected_observation = st.selectbox(
-            ' Choose a set to display:', options=range(len(output)))
+            'Choose a set to display:', options=range(len(output)), 
+            index=7
+            )
 
         # Get prediction for selected observation
         selected_output = output[selected_observation]
-
+        
         # Get the prediction category with the highest probability
         best_category = np.argmax(selected_output)
 
@@ -125,10 +132,11 @@ def main():
         fig, ax = plt.subplots()
         sns.set_theme(style='darkgrid', rc={'figure.figsize':(16,8)})
         sns.barplot(x=list(label_dict.values()), y=selected_output, ax=ax)
-        ax.set_title('Emotion Probability Distribution')
+        ax.set_title('Emotion Probability Distribution', fontsize=40)  # Increase the fontsize here
         ax.set_xlabel('Emotion')
         ax.set_ylabel('Probability')
         st.pyplot(fig)
+
 
 
 if __name__ == '__main__':
