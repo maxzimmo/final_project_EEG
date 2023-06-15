@@ -55,13 +55,13 @@ if __name__ == "__main__":
     X,y=RNNpreprocflow()
     model, history=runRNN(X,y)
     X_train, X_val, X_test, y_train, y_val, y_test = RNN_split_data(X,y,train_size=.7,val_size=.2, random_state=42)
-    #LOCAL_PATH = os.
-    #model_path = os.path.join( "./", "models", f"{timestamp}.h5")
+    LOCAL_PATH = os.
+    model_path = os.path.join( "./", "models", f"{timestamp}.h5")
     model.save("./model.h5")
-    #np.save('X_test', X_test)
-    #np.save('y_test', y_test)
+    np.save('X_test', X_test)
+    np.save('y_test', y_test)
 
-#   .py Files needed to run:
+#   .py Files needed to run the model:
 #   get_data (incl.Internal_funcs)
 #   Preproc
 #   RNN_Model
