@@ -55,10 +55,10 @@ def main():
     st.write("""
         <div class="container d-flex flex-column justify-content-center align-items-center vh-100">
             <h1 class="text-center p-2 display-4 mt-5 eeg-title">E.E.G</h1>
-            <p class="text-center eeg-caption">Electroencephalogram</p>
+            <p class="text-center eeg-caption">Emotion Predictor</p>
             <div class="eeg-description">
                 <p>
-                    Welcome to the Emotions predictor! Upload a file to get a prediction
+                    Welcome to the emotion predictor! Upload a file to get a prediction
                     This will allow us to analyze your brain activity and provide insights. Simply drag and drop the file into the
                     designated area or click to upload.
                 </p>
@@ -92,7 +92,7 @@ def main():
 
         # Use a dropdown to select the observation to display
         selected_observation = st.selectbox(
-            '## Choose an observation to display:', options=range(len(output)))
+            ' Choose a set to display:', options=range(len(output)))
 
         # Get prediction for selected observation
         selected_output = output[selected_observation]
@@ -123,28 +123,11 @@ def main():
 
         # Create a bar plot for the probabilities of each category
         fig, ax = plt.subplots()
-        ax.bar(label_dict.values(), selected_output)
+        sns.set_theme(style='darkgrid', rc={'figure.figsize':(16,8)})
+        sns.barplot(x=list(label_dict.values()), y=selected_output, ax=ax)
+        ax.set_title('Emotion Probability Distribution')
         ax.set_xlabel('Emotion')
         ax.set_ylabel('Probability')
-        st.pyplot(fig)
-
-        # Compute confusion matrix
-        st.header('''Confusion Matrix''')
-        st.write('''## How well is the model classifying emotions?''')
-        st.write(
-            "Each cell in the matrix corresponds to a specific combination of the predicted and actual values. ")
-        st.write(
-            "The diagonal of the matrix shows the number of correct predictions.")
-
-        y_pred = np.argmax(output, axis=1)
-        y_test_label = np.argmax(y_test, axis=1)
-        cm = confusion_matrix(y_test_label, y_pred)
-        fig, ax = plt.subplots(figsize=(10, 10))
-        sns.heatmap(cm, annot=True, fmt='d', ax=ax,
-                    cmap=plt.cm.Blues, cbar=False)
-        ax.set(xlabel="Pred", ylabel="True", xticklabels=label_dict.values(),
-               yticklabels=label_dict.values(), title="Confusion matrix")
-        plt.yticks(rotation=0)
         st.pyplot(fig)
 
 
