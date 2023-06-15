@@ -1,3 +1,24 @@
+#   .py Files needed to run the model:
+#   get_data (incl.Internal_funcs)
+#   Preproc
+#   RNN_Model
+#   processflow
+
+# RNN Preproc process:
+
+##  1) Fit the scaler on fullDF()
+##  1b Fit the Scaler on the full dataset. MinMax scaler 
+##  1c Fit the PCA
+##  2) Transform the scaler
+### 2a rnn_df(). Returns a ist with 16 np.arrays (13-74,310)
+### 2b Transform each set  with the previously fitted scaler 
+##  3) Padding
+### 3a Apply padding() to Pad the arrays to (74,310) shape ok to RNN
+##  4) y-Preproc
+### 4a run y_unique() ndarray (720, 1) with a single value for each trial 
+### 4b OHE hot-encode the y: y-values need to be one-hot-encoded for the RNN.
+
+
 # Data analysis
 - Document here the project: dummy_project
 - Description: Project Description
