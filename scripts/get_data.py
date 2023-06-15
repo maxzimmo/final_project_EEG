@@ -23,7 +23,7 @@ def fulldf(nsubjects=16):
 ### Load the X ndarrays.List with 16 np.arrays (13-74,310)
 def rnn_df(nsubjects=16):
     '''returns a list with 16 arrays'''
-    data16  = [pickle.loads(np.load(f'./final_project_EEG/data/{i}_123.npz')['data']) for i in range(1,nsubjects+1)]
+    data16  = [pickle.loads(np.load(f'data/EEG_Dataset/{i}_123.npz')['data']) for i in range(1,nsubjects+1)]
     return data16
 
 
@@ -33,7 +33,7 @@ def y_unique(nsubjects=16):
     After X is padded, this y is used to fit'''
     yunique = []
     for i in range(1,nsubjects+1):
-        y=pickle.loads(np.load(f'./final_project_EEG/data/{i}_123.npz')['label'])
+        y=pickle.loads(np.load(f'data/EEG_Dataset/{i}_123.npz')['label'])
         for e in range(45):
             yunique.append(int(np.unique(y[e])))
     return np.array(yunique).astype(np.float32).reshape(-1, 1)
@@ -84,9 +84,9 @@ def access16(y=True, nsubjects=16):
     label16 = {}
     for i in range(1,nsubjects+1):
         # Load all 16 files data into a Dict named ‘i_123.npz’ using a for loop
-        data16[i]  = pickle.loads(np.load(f'./final_project_EEG/data/{i}_123.npz')['data'])
+        data16[i]  = pickle.loads(np.load(f'data/EEG_Dataset/{i}_123.npz')['data'])
         if y:
-            label16[i] = pickle.loads(np.load(f'./final_project_EEG/data/{i}_123.npz')['label'])  
+            label16[i] = pickle.loads(np.load(f'data/EEG_Dataset/{i}_123.npz')['label'])  
     if y:
         return data16, label16
     if not y:
